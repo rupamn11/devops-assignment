@@ -23,8 +23,8 @@ ENV PORT=3001
 EXPOSE 3001
 
 
-Switch to non-root user
-USER rupam
+# Switch to non-root user
+USER rupam@DESKTOP-9DC4NJG 
 
 # Multiple health checks with wrong configurations
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
