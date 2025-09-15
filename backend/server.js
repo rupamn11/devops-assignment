@@ -13,9 +13,9 @@ let todos = [
 ];
 let nextId = 4;
 
-// Middleware configuration
+// Middleware configurationda
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: 'localhost:5002', 
   credentials: true
 }));
 

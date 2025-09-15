@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 // Wrong API base URL - connection issue
-const API_BASE_URL = 'http://localhost:3000'; 
+const API_BASE_URL = 'http://localhost:8080'; 
 
 function App() {
   const [todos, setTodos] = useState([]);
@@ -17,8 +17,7 @@ function App() {
   const fetchTodos = async () => {
     try {
       setLoading(true);
-      // Wrong endpoint - should be /api/todos
-      const response = await axios.get(`${API_BASE_URL}/todos`);
+      const response = await axios.get(`${API_BASE_URL}/api/todos`);
       setTodos(response.data);
     } catch (error) {
       console.error('Error fetching todos:', error);
@@ -33,10 +32,8 @@ function App() {
     if (!newTodo.trim()) return;
 
     try {
-      // Wrong endpoint and wrong data format
-      const response = await axios.post(`${API_BASE_URL}/todos`, {
-        title: newTodo, // Wrong field name - should be 'text'
-        completed: false
+      const response = await axios.post(`${API_BASE_URL}/api/todos`, {
+        text: newTodo
       });
       setTodos([...todos, response.data]);
       setNewTodo('');
@@ -48,8 +45,7 @@ function App() {
 
   const toggleTodo = async (id, completed) => {
     try {
-      // Wrong endpoint - should be /api/todos/${id}
-      const response = await axios.put(`${API_BASE_URL}/todos/${id}`, {
+      const response = await axios.put(`${API_BASE_URL}/api/todos/${id}`, {
         completed: !completed
       });
       setTodos(todos.map(todo => 
@@ -63,8 +59,7 @@ function App() {
 
   const deleteTodo = async (id) => {
     try {
-      // Wrong endpoint - should be /api/todos/${id}
-      await axios.delete(`${API_BASE_URL}/todos/${id}`);
+      await axios.delete(`${API_BASE_URL}/api/todos/${id}`);
       setTodos(todos.filter(todo => todo.id !== id));
     } catch (error) {
       console.error('Error deleting todo:', error);
