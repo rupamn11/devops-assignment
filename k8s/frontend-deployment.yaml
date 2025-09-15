@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-app-frontend
+  namespace: todo-app
+  labels:
+    app: todo-app
+    component: frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: todo-app
+      component: frontend
+  template:
+    metadata:
+      labels:
+        app: todo-app
+        component: frontend
+    spec:
+      serviceAccountName: todo-app-sa
+      containers:
+      - name: frontend
+        image: your-dockerhub-username/todo-frontend:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        envFrom:
+        - configMapRef:
+            name: todo-app-config
+        - secretRef:
+            name: todo-app-secrets
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 30
